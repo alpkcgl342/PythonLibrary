@@ -343,16 +343,20 @@ fiyat_ortalama.plot(kind="bar")
 plt.boxplot(df["age"]);
 
 
-Q1 = df["fare"].quantile(0.25)
-Q3 = df["fare"].quantile(0.75)
+income = df["density"]
+Q1 = income.quantile(0.25)
+Q3 = income.quantile(0.75)
 
 IQR = Q3 - Q1
 
-alt = Q1 - 1.5*IQR
-ust = Q3 - 1.5*IQR
+altsinir = Q1 - IQR * 1.5
+ustsinir = Q3 + IQR * 1.5
 
-df.loc["fare"] = df["fare"].clip(alt,ust)
-plt.boxplot(df["fare"]);
+df["density"] = df["density"].clip(altsinir, ustsinir)
+
+plt.boxplot(df["density"])
+plt.show()
+
 
 df = pd.get_dummies(df, columns=["sex", "embark_town"], drop_first=True)
 df
@@ -366,4 +370,5 @@ df["Online"] = le.fit_transform(df["Online"])
 
 mse = mean_sqared_error(y_test,y_pred) ya da (x_test)
 r2 = r2_score(y_test,y_pred)
+
 
