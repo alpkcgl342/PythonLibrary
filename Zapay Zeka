@@ -1,0 +1,358 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+from sklearn.tree import DecisionTreeClassifier, plot_tree, DecisionTreeRegressor
+from sklearn.ensemble import RandomForestClassifier, RandomForestRegressor
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score, classification_report, confusion_matrix, ConfusionMatrixDisplay
+from sklearn.preprocessing import StandardScaler
+from sklearn.linear_model import LogisticRegression
+
+
+"""
+
+df=pd.read_csv("iris.xls")
+
+df["iris"].unique()
+
+turler=df["iris"].value_counts()
+plt.bar(turler.index,turler.values)
+plt.show()
+x=df.drop("iris",axis=1)
+y=df["iris"]
+x_train, x_test, y_train, y_test = train_test_split(x,y,test_size=0.25,random_state=42)
+model=DecisionTreeClassifier(max_depth=3)
+model.fit(x_train,y_train)
+
+y_pred=model.predict(x_test)
+dogruluk=accuracy_score(y_test,y_pred)
+print(dogruluk)
+
+print("Sınıflandırma")
+print(classification_report(y_test,y_pred))
+
+
+
+
+
+
+
+
+
+dataset = pd.read_csv("winequality.xls")
+print(dataset.info())
+
+kalite=dataset["quality"].value_counts()
+plt.bar(kalite.index,kalite.values)
+plt.show()
+
+x = dataset.drop("quality",axis = 1)
+y = dataset["quality"]
+
+x_train, x_test, y_train, y_test = train_test_split(x,y,test_size=0.25,random_state=42)
+model = DecisionTreeClassifier(max_depth=10)
+model.fit(x_train,y_train)
+y_pred=model.predict(x_test)
+plot_tree(model, feature_names=x.columns,filled=True);
+
+dogruluk=accuracy_score(y_test, y_pred)
+print(dogruluk)
+
+matris= confusion_matrix(y_test, y_pred)
+print(matris)
+
+print("Sınıflandırma raporu")
+print(classification_report(y_test,y_pred))
+
+gorsel=ConfusionMatrixDisplay(confusion_matrix=matris,display_labels=sorted(y_test.unique()))
+gorsel.plot()
+plt.show()
+
+
+model=RandomForestClassifier()
+model.fit(x_train,y_train)
+y_pred=model.predict(x_test)
+
+dorguluk=accuracy_score(y_test, y_pred)
+print(dorguluk)
+
+rf_con_matris= confusion_matrix(y_test,y_pred)
+print(rf_con_matris)
+
+rf_con_matris_gorsel=ConfusionMatrixDisplay(confusion_matrix=rf_con_matris,display_labels=sorted(y_test.unique()))
+rf_con_matris_gorsel.plot()
+plt.show()
+
+ondem_derecesi=model.feature_importances_
+
+plt.barh(x.columns,ondem_derecesi)
+plt.show()
+
+
+
+
+
+
+
+
+data=pd.read_csv("Dry_Bean.xls")
+
+fasulye=data["Class"].value_counts()
+plt.bar(fasulye.index,fasulye.values)
+plt.show()
+
+x=data.drop("Class",axis=1)
+y=data["Class"]
+
+x_train, x_test, y_train, y_test = train_test_split(x,y,test_size=0.3,random_state=42)
+
+ka_model=DecisionTreeClassifier(max_depth=7)
+ka_model.fit(x_train,y_train)
+
+ka_pred=ka_model.predict(x_test)
+acc=accuracy_score(y_test, ka_pred)
+print(acc)
+
+matrix=confusion_matrix(y_test,ka_pred)
+print(matrix)
+
+matrix_gorsel=ConfusionMatrixDisplay(confusion_matrix=matrix,display_labels=sorted(y_test.unique()))
+matrix_gorsel.plot()
+plt.show()
+
+
+ro_model=RandomForestClassifier(
+    n_estimators=100,
+    max_depth=7
+)
+ro_model.fit(x_train,y_train)
+ro_pred=ro_model.predict(x_test)
+ro_dog=accuracy_score(y_test, ro_pred)
+print(ro_dog)
+
+ro_ondem_dereceleri=ro_model.feature_importances_
+plt.barh(x.columns,ro_ondem_dereceleri)
+plt.show()
+
+
+
+
+
+
+
+df=pd.read_csv("dataset2.xls")
+df.info()
+
+x=df.drop("Cover_Type",axis=1)
+y=df["Cover_Type"]
+
+x_train, x_test, y_train, y_test = train_test_split(x,y,test_size=0.3,random_state=42)
+model=RandomForestClassifier(
+    n_estimators=100,
+    max_depth=15
+)
+model.fit(x_train,y_train)
+
+y_pred=model.predict(x_test)
+dogruluk=accuracy_score(y_test,y_pred)
+print(dogruluk)
+
+ondem_derecesi=model.feature_importances_
+plt.barh(x.columns,ondem_derecesi)
+plt.show()
+
+x=x.drop(["Soil_Type35","Soil_Type36","Soil_Type37","Soil_Type27","Soil_Type28","Soil_Type26","Soil_Type29","Soil_Type30","Soil_Type25"],axis=1)
+x_train, x_test, y_train, y_test = train_test_split(x,y,test_size=0.3,random_state=42)
+
+model=RandomForestClassifier(
+    n_estimators=100,
+    max_depth=15
+)
+model.fit(x_train,y_train)
+
+y_pred=model.predict(x_test)
+dogruluk=accuracy_score(y_test,y_pred)
+print(dogruluk)
+
+ondem_derecesi=model.feature_importances_
+plt.barh(x.columns,ondem_derecesi)
+plt.show()
+
+
+
+
+
+data = pd.read_csv("drug200.csv")
+
+x = data.drop("Drug", axis=1)
+y = data["Drug"]
+
+x = pd.get_dummies(x, drop_first=True)
+
+x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.30, random_state=42)
+model = DecisionTreeClassifier(max_depth=4, random_state=42)
+model.fit(x_train, y_train)
+y_pred = model.predict(x_test)
+
+plot_tree(model,feature_names=x.columns,filled=True);
+plt.show()
+
+dogruluk = accuracy_score(y_test, y_pred)
+print("Doğruluk:", dogruluk)
+
+matris=confusion_matrix(y_test,y_pred)
+print(matris)
+
+clas=classification_report(y_test,y_pred)
+print(clas)
+
+gorsel=ConfusionMatrixDisplay(confusion_matrix=matris,display_labels=sorted(y_test.unique()))
+gorsel.plot()
+plt.show()
+
+
+model=RandomForestClassifier()
+model.fit(x_train,y_train)
+y_pred=model.predict(x_test)
+
+dorguluk=accuracy_score(y_test, y_pred)
+print(dorguluk)
+
+rf_con_matris= confusion_matrix(y_test,y_pred)
+print(rf_con_matris)
+
+rf_con_matris_gorsel=ConfusionMatrixDisplay(confusion_matrix=rf_con_matris,display_labels=sorted(y_test.unique()))
+rf_con_matris_gorsel.plot()
+plt.show()
+
+ondem_derecesi=model.feature_importances_
+
+plt.barh(x.columns,ondem_derecesi)
+plt.show()
+
+
+df=pd.read_csv("bill_authentication.csv")
+data=df["Class"].value_counts()
+plt.bar(data.index,data.values)
+plt.show()
+
+x=df.drop("Class",axis=1)
+y=df["Class"]
+x_train,x_test,y_train,y_test = train_test_split(x,y,test_size=0.3,random_state=42)
+model=DecisionTreeClassifier(max_depth=9, random_state=42)
+model.fit(x_train,y_train)
+y_pred=model.predict(x_test)
+
+plot_tree(model, feature_names=x.columns, filled=True)
+plt.show()
+
+
+dogruluk=accuracy_score(y_test,y_pred)
+print(dogruluk)
+
+matrix=confusion_matrix(y_test,y_pred)
+print(matrix)
+
+print(classification_report(y_test,y_pred))
+
+
+model=RandomForestClassifier(n_estimators=7 , max_depth=6)
+model.fit(x_test,y_test)
+y_pred=model.predict(x_test)
+
+dogruluk=accuracy_score(y_test,y_pred)
+print(dogruluk)
+
+con=confusion_matrix(y_test,y_pred)
+print(con)
+
+gorsel=ConfusionMatrixDisplay(confusion_matrix=con , display_labels=sorted(y_test.unique()))
+gorsel.plot()
+plt.show()
+
+
+ondem_derecesi=model.feature_importances_
+plt.barh(x.columns,ondem_derecesi)
+plt.show()
+
+"""
+
+
+
+
+data=pd.read_csv("iris.xls")
+
+
+
+turler=data["iris"].value_counts()
+plt.bar(turler.index,turler.values)
+plt.show()
+
+x=data.drop("iris",axis=1)
+y=data["iris"]
+x_train,x_test,y_train,y_test= train_test_split(x,y,test_size=0.25,random_state=42)
+model=DecisionTreeClassifier(max_depth=4, random_state=42)
+model.fit(x_train,y_train)
+y_pred=model.predict(x_test)
+
+plot_tree(model, feature_names=x.columns , filled=True);
+plt.show()
+
+dogruluk=accuracy_score(y_test,y_pred)
+print(dogruluk)
+
+clas=classification_report(y_test,y_pred)
+print(clas)
+
+con=confusion_matrix(y_test,y_pred)
+print(con)
+
+gorsel=ConfusionMatrixDisplay(confusion_matrix=con , display_labels=sorted(y_test.unique()))
+gorsel.plot()
+plt.show()
+
+ondem_derecesi=model.feature_importances_
+plt.barh(x.columns,ondem_derecesi)
+plt.show()
+
+
+
+model=RandomForestClassifier(n_estimators=100, max_depth=1, random_state=42)
+model.fit(x_train,y_train)
+y_pred=model.predict(x_test)
+
+dogruluk=accuracy_score(y_test,y_pred)
+print(dogruluk)
+
+con=confusion_matrix(y_test,y_pred)
+
+gorsel=ConfusionMatrixDisplay(confusion_matrix=con,display_labels=sorted(y_test.unique()))
+gorsel.plot()
+plt.show()
+
+ondem_derecesi=model.feature_importances_
+plt.barh(x.columns,ondem_derecesi)
+plt.show()
+
+yas_medyan = df.groupby(["sex","adult_male"])["age"].transform("median")
+df["age"] = df["age"].fillna(yas_madyan)
+df.isnull().sum()
+
+plt.boxplot(df["age"]);
+
+
+Q1 = df["fare"].quantile(0.25)
+Q3 = df["fare"].quantile(0.75)
+
+IQR = Q3 - Q1
+
+alt = Q1 - 1.5*IQR
+ust = Q3 - 1.5*IQR
+
+df.loc[:, "fare"] = df["fare"].clip(alt,ust)
+plt.boxplot(df["fare"]);
+
+df = pd.get_dummies(df, columns=["sex", "embark_town"], drop_first=True)
+df
+
+skaler = StandardScaler()
+x = skaler.fit_transform(x)
